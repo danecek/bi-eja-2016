@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bi.eja.ordersclient2;
+package bi.eja.ordersclient3;
 
-import bi.eja.orders2.model.Item;
-import bi.eja.orders2.model.Order;
+import bi.eja.orders.model.Order;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
@@ -18,17 +18,19 @@ import javafx.scene.layout.StackPane;
  */
 public class OrderPanel extends StackPane {
 
-    ObservableList<Order> orders = FXCollections.observableArrayList();
+    ObservableList<Order> orders;
+    private final ListView<Order> lv;
 
     public OrderPanel() {
-        orders.add(new Order("sssss", Item.A, 0));
-        ListView<Order> lv = new ListView<Order>(orders);
-        getChildren().add(lv);
+        lv = new ListView<>(orders = FXCollections.observableArrayList());
+        this.getChildren().add(lv);
+        myRefresh();
     }
-
-    public void refresh() {
-        orders.clear();
-        orders.addAll(Proxy.instance.getOrders());
+    
+    public void myRefresh() {
+       List<Order> os = Proxy.instance.getOrders();
+       orders.clear();
+       orders.addAll(os);
     }
 
 }

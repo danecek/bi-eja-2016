@@ -30,6 +30,7 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(bi.eja.orders.controller.Facade.class);
+        resources.add(bi.eja.orders.controller.ItemSubresource.class);
     }
     
 }

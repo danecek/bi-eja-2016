@@ -1,9 +1,10 @@
-package bi.eja.ordersclient2;
+package bi.eja.ordersclient3;
 
 import javafx.application.Application;
 import static javafx.application.Application.launch;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -12,11 +13,11 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-       
-        VBox root = new VBox(new OrderPanel());
+        Parent root =  new VBox(new OrderPanel());// FXMLLoader.load(getClass().getResource("/fxml/Scene.fxml"));
         Scene scene = new Scene(root);
+ //       scene.getStylesheets().add("/styles/Styles.css");
         
-        stage.setTitle("Orders");
+        stage.setTitle("JavaFX and Maven");
         stage.setScene(scene);
         stage.show();
     }
