@@ -24,9 +24,9 @@ class AddOrderDialog extends Dialog<ButtonType>{
     public AddOrderDialog() {
         getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL, ButtonType.OK);
         GridPane gp = new GridPane();
-        gp.add(new Label("Quantity"), 0, 0);
-        gp.add(quantity, 1, 0);
-        getDialogPane().getChildren().addAll(gp);
+        gp.add(new Label("Quantity:"), 1, 0);
+        gp.add(quantity, 2, 0);
+        getDialogPane().setContent(gp);
     }
     
     void execute() throws OrdersException {
