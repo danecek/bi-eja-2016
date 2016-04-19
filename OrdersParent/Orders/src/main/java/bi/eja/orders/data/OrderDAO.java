@@ -82,4 +82,8 @@ public class OrderDAO {
         return ords;
     }
 
+    public Order find(int id) {
+       return orders.get(id);
+    }
+
 }
