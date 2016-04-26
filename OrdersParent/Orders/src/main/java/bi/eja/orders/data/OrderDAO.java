@@ -36,4 +36,7 @@ public class OrderDAO {
         return em.createNamedQuery("ordersByCustomer", Order.class).setParameter(1, customerUsername).getResultList();
     }
 
+    public List<Order> ordersByCustomer(String customerUsername) {
+         return em.createNamedQuery("ordersByCustomer", Order.class).setParameter(1, customerUsername).getResultList();
+    }
 }
