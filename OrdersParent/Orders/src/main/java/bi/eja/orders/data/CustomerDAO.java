@@ -1,60 +1,39 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package bi.eja.orders.data;
 
 import bi.eja.orders.model.Customer;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import javax.annotation.PostConstruct;
-import javax.ejb.Lock;
-import javax.ejb.LockType;
-import javax.ejb.Singleton;
-import javax.enterprise.context.ApplicationScoped;
+import javax.ejb.Stateless;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
-@Singleton
-@ApplicationScoped
+@Stateless
 @Named
 public class CustomerDAO {
 
-    private final Map<String, Customer> customers = new HashMap<>();
+    @PersistenceContext
+    EntityManager em;
 
-    @PostConstruct
-    void init() {
-        createCustomer(new Customer("Tom"));
-        createCustomer(new Customer("John"));
-    }
-
-    public boolean contains(String username) {
-        return customers.keySet().contains(username);
-    }
-
-    @Lock(LockType.READ)
     public Customer find(String username) {
-        return customers.get(username);
+        return em.find(Customer.class, username);
     }
 
-    @Lock(LockType.READ)
     public List<Customer> getCustomers() {
-        return new ArrayList(customers.values());
+        TypedQuery<Customer> tq = em.createNamedQuery("getCustomers", Customer.class);
+        return tq.getResultList();
     }
 
     public void createCustomer(Customer cust) {
-        customers.put(cust.getUsername(), cust);
+        em.persist(cust);
     }
 
     public void delete(String customerUsername) {
-        customers.remove(customerUsername);
+        em.remove(find(customerUsername));
     }
 
-    @Lock(LockType.READ)
     public boolean exists(String customerUsername) {
-        return customers.containsKey(customerUsername);
+        return find(customerUsername)!=null;
     }
 
 }

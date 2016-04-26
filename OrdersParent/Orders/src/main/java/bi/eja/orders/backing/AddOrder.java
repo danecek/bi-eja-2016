@@ -5,6 +5,7 @@
  */
 package bi.eja.orders.backing;
 
+import bi.eja.orders.data.CustomerDAO;
 import bi.eja.orders.data.OrderDAO;
 import bi.eja.orders.model.Item;
 import bi.eja.orders.model.Order;
@@ -18,6 +19,8 @@ public class AddOrder {
 
     @Inject
     OrderDAO orderDAO;
+    @Inject
+    CustomerDAO customerDAO;
 
     private String username;
     private int quantity;
@@ -66,10 +69,10 @@ public class AddOrder {
     }
 
     public String add() {
-        orderDAO.create(new Order(username, item, quantity));
+        orderDAO.create(new Order(customerDAO.find(username), item, quantity));
         return "orders";
     }
-    
+
     public List<Item> getItems() {
         return Arrays.asList(Item.values());
     }

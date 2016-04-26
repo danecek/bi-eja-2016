@@ -1,89 +1,39 @@
 package bi.eja.orders.data;
 
-
-import bi.eja.orders.model.Customer;
-import bi.eja.orders.model.Item;
 import bi.eja.orders.model.Order;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import javax.annotation.PostConstruct;
-import javax.ejb.Lock;
-import javax.ejb.LockType;
-import javax.ejb.Singleton;
-import javax.inject.Named;
-import javax.ejb.DependsOn;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
-@Singleton
-@ApplicationScoped
-@Named
-@DependsOn({"CustomerDAO"})
+@Stateless
 public class OrderDAO {
 
-    private final Map<Integer, Order> orders = new HashMap<>();
+    @PersistenceContext
+    EntityManager em;
 
-    @Inject
-    CustomerDAO customerDAO;
-
-    @PostConstruct
-    void init() {
-        int c = 0;
-        for (Customer cust : customerDAO.getCustomers()) {
-            for (Item item : Item.values()) {
-                create(new Order(cust.getUsername(), item, ++c));
-            }
-        }
+    public Order find(int id) {
+        return em.find(Order.class, id);
     }
 
     public void create(Order o) {
-        o.setId(orders.size() + 1);
-        orders.put(o.getId(), o);
-    }
-
-    public void clear() {
-        orders.clear();
-    }
-
-    @Lock(LockType.READ)
-    public List<Order> getOrders() {
-        return new ArrayList<>(orders.values());
+        em.persist(o);
     }
 
     public void update(Order order) {
-        orders.put(order.getId(), order);
+        em.merge(order);
     }
 
     public void delete(Integer orderId) {
-        orders.remove(orderId);
+        em.remove(find(orderId));
     }
 
-    @Lock(LockType.READ)
+    public List<Order> getOrders() {
+        return em.createNamedQuery("getOrders", Order.class).getResultList();
+    }
+
     public List<Order> ordersByCustomer(String customerUsername) {
-        List<Order> ords = new ArrayList<>();
-        for (Order order : orders.values()) {
-            if (order.getCustomerUsername().equals(customerUsername)) {
-                ords.add(order);
-            }
-        }
-        return ords;
-    }
-
-    @Lock(LockType.READ)
-    public List<Order> getOrdersByUsername(String username) {
-        List<Order> ords = new ArrayList<>();
-        for (Order order : orders.values()) {
-            if (order.getCustomerUsername().equals(username)) {
-                ords.add(order);
-            }
-        }
-        return ords;
-    }
-
-    public Order find(int id) {
-       return orders.get(id);
+        return em.createNamedQuery("ordersByCustomer", Order.class).setParameter(1, customerUsername).getResultList();
     }
 
 }
