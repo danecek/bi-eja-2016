@@ -31,11 +31,11 @@ public class OrderDAOSingl {
     @PostConstruct
     void init() {
         int c = 0;
-        for (Customer cust : customerDAO.getCustomers()) {
-            for (Item item : Item.values()) {
-                create(new Order(cust, item, ++c));
-            }
-        }
+//        for (Customer cust : customerDAO.getCustomers()) {
+//            for (Item item : Item.values()) {
+//                create(new Order(cust, item, ++c));
+//            }
+//        }
     }
 
     public void create(Order o) {

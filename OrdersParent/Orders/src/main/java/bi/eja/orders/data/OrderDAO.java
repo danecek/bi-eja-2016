@@ -7,36 +7,55 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Stateless
-public class OrderDAO {
+public class OrderDAO extends AbstractFacade<Order> {
 
     @PersistenceContext
     EntityManager em;
 
-    public Order find(int id) {
-        return em.find(Order.class, id);
+    public OrderDAO() {
+        super(Order.class);
     }
 
-    public void create(Order o) {
-        em.persist(o);
+//    public Order find(int id) {
+//        return em.find(Order.class, id);
+//    }
+//
+//    public void create(Order o) {
+//        em.persist(o);
+//    }
+//
+//    public void update(Order order) {
+//        em.merge(order);
+//    }
+//
+//    public void delete(Integer orderId) {
+//        em.remove(find(orderId));
+//    }
+//
+//    public List<Order> getOrders() {
+//        return em.createNamedQuery("getOrders", Order.class).getResultList();
+//    }
+//
+//    public List<Order> ordersByCustomer(String customerUsername) {
+//        return em.createNamedQuery("ordersByCustomer", Order.class).setParameter(1, customerUsername).getResultList();
+//    }
+//
+//    public List<Order> ordersByCustomer(String customerUsername) {
+//         return em.createNamedQuery("ordersByCustomer", Order.class).setParameter(1, customerUsername).getResultList();
+//    }
+
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
     }
 
     public void update(Order order) {
-        em.merge(order);
-    }
-
-    public void delete(Integer orderId) {
-        em.remove(find(orderId));
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public List<Order> getOrders() {
-        return em.createNamedQuery("getOrders", Order.class).getResultList();
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-    public List<Order> ordersByCustomer(String customerUsername) {
-        return em.createNamedQuery("ordersByCustomer", Order.class).setParameter(1, customerUsername).getResultList();
-    }
-
-    public List<Order> ordersByCustomer(String customerUsername) {
-         return em.createNamedQuery("ordersByCustomer", Order.class).setParameter(1, customerUsername).getResultList();
-    }
+                
+                
 }

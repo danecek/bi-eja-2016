@@ -26,8 +26,8 @@ public class CustomerDAOSingl {
 
     @PostConstruct
     void init() {
-        createCustomer(new Customer("Tom"));
-        createCustomer(new Customer("John"));
+//        createCustomer(new Customer("Tom"));
+//        createCustomer(new Customer("John"));
     }
 
     public boolean contains(String username) {

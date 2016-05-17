@@ -10,30 +10,40 @@ import javax.persistence.TypedQuery;
 
 @Stateless
 @Named
-public class CustomerDAO {
+public class CustomerDAO extends AbstractFacade<Customer>{
 
     @PersistenceContext
     EntityManager em;
 
-    public Customer find(String username) {
-        return em.find(Customer.class, username);
+    public CustomerDAO() {
+        super(Customer.class);
     }
 
-    public List<Customer> getCustomers() {
-        TypedQuery<Customer> tq = em.createNamedQuery("getCustomers", Customer.class);
-        return tq.getResultList();
-    }
+//    public Customer find(String username) {
+//        return em.find(Customer.class, username);
+//    }
+//
+//    public List<Customer> getCustomers() {
+//        TypedQuery<Customer> tq = em.createNamedQuery("getCustomers", Customer.class);
+//        return tq.getResultList();
+//    }
+//
+//    public void createCustomer(Customer cust) {
+//        em.persist(cust);
+//    }
+//
+//    public void delete(String customerUsername) {
+//        em.remove(find(customerUsername));
+//    }
+//
+//    public boolean exists(String customerUsername) {
+//        return find(customerUsername)!=null;
+//    }
 
-    public void createCustomer(Customer cust) {
-        em.persist(cust);
-    }
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
 
-    public void delete(String customerUsername) {
-        em.remove(find(customerUsername));
-    }
-
-    public boolean exists(String customerUsername) {
-        return find(customerUsername)!=null;
     }
 
 }

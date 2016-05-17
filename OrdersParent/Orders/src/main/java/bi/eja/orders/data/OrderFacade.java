@@ -6,6 +6,7 @@
 package bi.eja.orders.data;
 
 import bi.eja.orders.model.Order;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,6 +28,16 @@ public class OrderFacade extends AbstractFacade<Order> implements OrderFacadeLoc
 
     public OrderFacade() {
         super(Order.class);
+    }
+
+    @Override
+    public List<Order> findRange(int[] range) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int count() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

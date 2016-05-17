@@ -6,7 +6,7 @@
 package bi.eja.orders.model;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
@@ -26,12 +26,16 @@ public class Customer implements Serializable {
     @Id 
     private String username;
     
+    Address address;
+    
     @OneToMany(mappedBy = "customer")
-    private Collection<Order> orders;
+    private List<Order> orders;
 
-    public Customer(String username) {
+    public Customer(String username, Address address) {
         this.username = username;
+        this.address = address;
     }
+
 
     public String getUsername() {
         return username;
@@ -47,14 +51,14 @@ public class Customer implements Serializable {
     /**
      * @return the orders
      */
-    public Collection<Order> getOrders() {
+    public List<Order> getOrders() {
         return orders;
     }
 
     /**
      * @param orders the orders to set
      */
-    public void setOrders(Collection<Order> orders) {
+    public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
 

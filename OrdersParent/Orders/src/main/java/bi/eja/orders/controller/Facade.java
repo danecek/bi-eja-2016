@@ -38,7 +38,7 @@ public class Facade {
         if (!customerDAO.exists(username)) {
             return Response.status(Status.UNAUTHORIZED).build();
         } else {
-            List<Order> list = orderDAO.ordersByCustomer(username);
+            List<Order> list = customerDAO.find(username).getOrders();
             GenericEntity<List<Order>> entity = new GenericEntity<List<Order>>(list) {
             };
             return Response.ok(entity).build();

@@ -40,7 +40,7 @@ public class DeleteOrder {
     }
 
     public String delete() {
-        orderDAO.delete(order.getId());
+        orderDAO.remove(order);
         return "orders";
     }
 
