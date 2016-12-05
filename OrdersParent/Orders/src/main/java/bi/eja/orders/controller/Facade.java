@@ -35,10 +35,10 @@ public class Facade {
     @GET
     public Response get(@QueryParam("username") String username) {
         LOG.info(username);
-        if (!customerDAO.contains(username)) {
+        if (!customerDAO.exists(username)) {
             return Response.status(Status.UNAUTHORIZED).build();
         } else {
-            List<Order> list = orderDAO.getOrdersByUsername(username);
+            List<Order> list = customerDAO.find(username).getOrders();
             GenericEntity<List<Order>> entity = new GenericEntity<List<Order>>(list) {
             };
             return Response.ok(entity).build();

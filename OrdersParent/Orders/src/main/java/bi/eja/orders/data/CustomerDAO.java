@@ -1,60 +1,49 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package bi.eja.orders.data;
 
 import bi.eja.orders.model.Customer;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import javax.annotation.PostConstruct;
-import javax.ejb.Lock;
-import javax.ejb.LockType;
-import javax.ejb.Singleton;
-import javax.enterprise.context.ApplicationScoped;
+import javax.ejb.Stateless;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
-@Singleton
-@ApplicationScoped
+@Stateless
 @Named
-public class CustomerDAO {
+public class CustomerDAO extends AbstractFacade<Customer>{
 
-    private final Map<String, Customer> customers = new HashMap<>();
+    @PersistenceContext
+    EntityManager em;
 
-    @PostConstruct
-    void init() {
-        createCustomer(new Customer("Tom"));
-        createCustomer(new Customer("John"));
+    public CustomerDAO() {
+        super(Customer.class);
     }
 
-    public boolean contains(String username) {
-        return customers.keySet().contains(username);
-    }
+//    public Customer find(String username) {
+//        return em.find(Customer.class, username);
+//    }
+//
+//    public List<Customer> getCustomers() {
+//        TypedQuery<Customer> tq = em.createNamedQuery("getCustomers", Customer.class);
+//        return tq.getResultList();
+//    }
+//
+//    public void createCustomer(Customer cust) {
+//        em.persist(cust);
+//    }
+//
+//    public void delete(String customerUsername) {
+//        em.remove(find(customerUsername));
+//    }
+//
+//    public boolean exists(String customerUsername) {
+//        return find(customerUsername)!=null;
+//    }
 
-    @Lock(LockType.READ)
-    public Customer find(String username) {
-        return customers.get(username);
-    }
+    @Override
+    protected EntityManager getEntityManager() {
+        return em;
 
-    @Lock(LockType.READ)
-    public List<Customer> getCustomers() {
-        return new ArrayList(customers.values());
-    }
-
-    public void createCustomer(Customer cust) {
-        customers.put(cust.getUsername(), cust);
-    }
-
-    public void delete(String customerUsername) {
-        customers.remove(customerUsername);
-    }
-
-    @Lock(LockType.READ)
-    public boolean exists(String customerUsername) {
-        return customers.containsKey(customerUsername);
     }
 
 }

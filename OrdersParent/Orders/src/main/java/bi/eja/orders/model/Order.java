@@ -1,28 +1,42 @@
 package bi.eja.orders.model;
 
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class Order {
+@Entity(name = "CustOrder")
+@Table(name = "ORDER_TAB")
+@NamedQueries({
+    @NamedQuery(name = "getOrders", query = "SELECT o FROM CustOrder o"),
+    @NamedQuery(name = "ordersByCustomer", query = "SELECT o FROM CustOrder o WHERE o.customer.username=?1")
+})
+public class Order implements Serializable {
 
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private String customerUsername;
+    
+    @ManyToOne
+    private Customer customer;
     private int quantity;
     private Item item;
 
     public Order() {
     }
 
-    public Order(String customerUsername, Item polozka, int quantity) {
-        this.customerUsername = customerUsername;
+    public Order(Customer customer, Item polozka, int quantity) {
+        this.customer = customer;
         this.item = polozka;
         this.quantity = quantity;
     }
 
-    public Order(Integer id, String customerUsername, Item polozka, int quantity) {
-        this(customerUsername, polozka, quantity);
-        this.id = id;
-    }
 
     /**
      * @return the id
@@ -45,10 +59,9 @@ public class Order {
         this.id = id;
     }
 
-
     @Override
     public String toString() {
-        return "Order{" + "id=" + id + ", customerUsername=" + getCustomerUsername() + ", item=" + item + '}';
+        return "Order{" + "id=" + id + ", customerUsername=" + getCustomer() + ", item=" + item + '}';
     }
 
     /**
@@ -73,16 +86,18 @@ public class Order {
     }
 
     /**
-     * @return the customerUsername
+     * @return the customer
      */
-    public String getCustomerUsername() {
-        return customerUsername;
+    public Customer getCustomer() {
+        return customer;
     }
 
     /**
-     * @param customerUsername the customerUsername to set
+     * @param customer the customer to set
      */
-    public void setCustomerUsername(String customerUsername) {
-        this.customerUsername = customerUsername;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
+
+
 }

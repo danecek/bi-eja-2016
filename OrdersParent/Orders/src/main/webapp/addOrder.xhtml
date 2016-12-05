@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <body>
+
+        <ui:composition template="./ordersTemplate.xhtml">
+
+            <ui:define name="top">
+                <h2>#{bundle.addorder}</h2>
+            </ui:define>
+
+            <ui:define name="content">
+                <h:form>
+                    <h:panelGrid columns="3">
+                        <h:outputLabel for="username" value="#{bundle.username}"/>
+                        <h:inputText id ="username" value="#{addOrder.username}" validatorMessage="#{bundle.shortusername}">
+                            <f:validateLength minimum="3"/>
+                        </h:inputText>
+                        <h:message for="username"/>
+                        
+                        <h:outputLabel for="quantity" value="#{bundle.quantity}"/>
+                        <h:inputText id ="quantity" value="#{addOrder.quantity}" validatorMessage="#{bundle.mustbepositive}">
+                            <f:validateLongRange minimum="1"/>
+                        </h:inputText>
+                        <h:message for="quantity"/>
+                        
+                        <h:outputLabel for="items" value="#{bundle.item}"/>
+                        <h:selectOneMenu id="items" value="#{addOrder.item}">
+                            <f:selectItems value="#{addOrder.items}" />
+                        </h:selectOneMenu>
+                    </h:panelGrid>
+                    <h:panelGrid columns="2">
+                        <h:commandButton value="#{bundle.add}" action="#{addOrder.add()}" />
+                        <h:button value="#{bundle.cancel}" outcome="index" />
+                    </h:panelGrid>
+                    
+                    
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

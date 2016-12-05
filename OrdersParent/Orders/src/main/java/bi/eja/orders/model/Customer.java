@@ -5,16 +5,37 @@
  */
 package bi.eja.orders.model;
 
+import java.io.Serializable;
+import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class Customer {
+@Entity
+@Table(name = "CUST_TABLE")
+@NamedQuery(name = "getCustomers", query = "SELECT c FROM Customer c")
+public class Customer implements Serializable {
 
-    private String username;
-
-    public Customer(String username) {
-        this.username = username;
+    public Customer() {
     }
+
+    @Id 
+    private String username;
+    
+    Address address;
+    
+    @OneToMany(mappedBy = "customer")
+    private List<Order> orders;
+
+    public Customer(String username, Address address) {
+        this.username = username;
+        this.address = address;
+    }
+
 
     public String getUsername() {
         return username;
@@ -25,6 +46,20 @@ public class Customer {
      */
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    /**
+     * @return the orders
+     */
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    /**
+     * @param orders the orders to set
+     */
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 
 }

@@ -6,6 +6,8 @@
 package bi.eja.ordersclient3;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
@@ -21,16 +23,21 @@ public final class OrderPanel extends StackPane {
     ObservableList<Order> orders;
     private final ListView<Order> lv;
 
-    public OrderPanel() {
+    public OrderPanel()  {
         lv = new ListView<>(orders = FXCollections.observableArrayList());
         getChildren().add(lv);
-        myRefresh();
+        try {
+            myRefresh();
+        } catch (OrdersException ex) {
+            MainApp.instance.alert(ex.toString());
+        }
     }
 
-    public void myRefresh() {
-        List<Order> os = Proxy.instance.getOrders();
+    public void myRefresh() throws OrdersException {
+        List<Order> os = Proxy.instance.getOrders(MainApp.instance.getUsername());
         orders.clear();
         orders.addAll(os);
     }
+
 
 }
