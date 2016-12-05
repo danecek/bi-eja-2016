@@ -5,12 +5,12 @@
  */
 package bi.eja.ordersclient3;
 
-import bi.eja.orders.model.Order;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.StackPane;
+import bi.eja.orders.model.*;
 
 /**
  *
