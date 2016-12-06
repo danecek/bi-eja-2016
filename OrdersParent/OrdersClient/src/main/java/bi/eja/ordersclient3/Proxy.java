@@ -33,8 +33,8 @@ public class Proxy {
     List<Order> getOrders(String username) throws OrdersException {
         try {
             return ordersResource.queryParam("username", username).
-                    request(MediaType.APPLICATION_XML).get(new GenericType<List<Order>>() {
-            });
+                    request(MediaType.APPLICATION_XML).
+                    get(new GenericType<List<Order>>() { });
         } catch (RuntimeException ex) {
             throw new OrdersException(ex);
         }
@@ -44,7 +44,7 @@ public class Proxy {
         try {
             Response r = ordersResource.queryParam("username", username).request().put(null);
             URI newOrderUri = r.getLocation();
-            Order o = new Order(username, item, quantity);
+            Order o = null;// !!!!!! new Order(username, item, quantity);
             client.target(newOrderUri).request(MediaType.APPLICATION_XML).put(Entity.xml(o));
         } catch (RuntimeException ex) {
             throw new OrdersException(ex);
